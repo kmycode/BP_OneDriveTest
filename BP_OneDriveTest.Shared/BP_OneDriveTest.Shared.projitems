@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9ab0d2db-eee7-4d20-aecb-9776dc56a71d</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>BP_OneDriveTest.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ApiKeys.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\DependencyInjection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\IAuthBrowser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\IAuthBrowserProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\OneDriveUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveAuthModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\OneDriveViewModel.cs" />
+  </ItemGroup>
+</Project>
