@@ -48,7 +48,7 @@ namespace BP_OneDriveTest.Shared.Models
 		{
 			this.client = new OneDriveClient(e.Provider);
 
-			var status = "ログインに成功しました\nRoot直下: ";
+			var status = "ログインに成功しました\nRoot直下:\n";
 			var rootChildren = await this.client.Drive.Root.Children.Request().GetAsync();
 			foreach (var c in rootChildren)
 			{

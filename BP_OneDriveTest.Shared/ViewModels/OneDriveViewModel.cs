@@ -48,12 +48,8 @@ namespace BP_OneDriveTest.Shared.ViewModels
 			// イベントをつなげる
 			this.authModel.OneDriveAuthFinished += this.model.OnAuthenticationFinished;
 
-			// 認証完了時、ブラウザからAuthModelへの参照を抜く
-			this.authModel.OneDriveAuthFinished += (sender, e) =>
-			{
-				this.browser.Navigated -= this.authModel.OnAuthBrowserNavigated;
-				this.browser = null;
-			};
+			// 認証完了時、ブラウザを操作する
+			this.authModel.OneDriveAuthFinished += this.OneDriveAuthFinished;
 		}
 
 		#endregion
@@ -78,6 +74,23 @@ namespace BP_OneDriveTest.Shared.ViewModels
 			}
 		}
 		private RelayCommand _authenticateCommand;
+
+		#endregion
+
+		#region メソッド
+
+		/// <summary>
+		/// 認証が完了した時、ブラウザを閉じるようにする（画面を操作する）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OneDriveAuthFinished(object sender, OneDriveAuthFinishedEventArgs e)
+		{
+			// ブラウザを閉じて、循環参照を抜く
+			this.browser.Navigated -= this.authModel.OnAuthBrowserNavigated;
+			DependencyInjection.AuthBrowserProvider.CloseBrowser();
+			this.browser = null;
+		}
 
 		#endregion
 
