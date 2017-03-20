@@ -49,32 +49,6 @@ namespace BP_OneDriveTest.Shared.Models
 			this.client = new OneDriveClient(e.Provider);
 			this.OneDriveConnectionEstablished?.Invoke(this, new OneDriveConnectionEstablishedEventArgs(this.client));
 
-			var sp1 = System.Diagnostics.Stopwatch.StartNew();
-			for (int i = 0; i < 50; i++)
-			{
-				await this.client.Drive.Root.ItemWithPath("StoryCanvasCloud/workspace1").Children.Request().GetAsync();
-				await this.client.Drive.Root.ItemWithPath("StoryCanvasCloud/workspace2").Children.Request().GetAsync();
-				await this.client.Drive.Root.ItemWithPath("StoryCanvasCloud/workspace3").Children.Request().GetAsync();
-				await this.client.Drive.Root.ItemWithPath("StoryCanvasCloud/workspace4").Children.Request().GetAsync();
-			}
-			sp1.Stop();
-
-			var sp2 = System.Diagnostics.Stopwatch.StartNew();
-			var scc = await this.client.Drive.Root.ItemWithPath("StoryCanvasCloud").Request().GetAsync();
-			var id = scc.Id;
-			var children = await this.client.Drive.Items[id].Children.Request().GetAsync();
-			for (int i = 0; i < 50; i++)
-			{
-				foreach (var child in children)
-				{
-					await this.client.Drive.Items[child.Id].Children.Request().GetAsync();
-				}
-			}
-			sp2.Stop();
-
-			System.Diagnostics.Debug.WriteLine("ItemWithPathのみ:" + sp1.ElapsedMilliseconds);
-			System.Diagnostics.Debug.WriteLine("IDと併用        :" + sp2.ElapsedMilliseconds);
-
 			//var status = "ログインに成功しました\nRoot直下:\n";
 			//var rootChildren = await this.client.Drive.Root.Children.Request().GetAsync();
 			//foreach (var c in rootChildren)
