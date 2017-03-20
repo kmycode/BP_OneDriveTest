@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BP_OneDriveTest.UWP"
     xmlns:vm="using:BP_OneDriveTest.Shared.ViewModels"
+    xmlns:converters="using:BP_OneDriveTest.UWP.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -11,6 +12,10 @@
     <Page.DataContext>
         <vm:OneDriveViewModel/>
     </Page.DataContext>
+
+    <Page.Resources>
+        <converters:OneDriveObject2ColorConverter x:Key="OneDriveObject2ColorConverter"/>
+    </Page.Resources>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
@@ -25,6 +30,27 @@
             <Button Command="{Binding AuthenticateCommand}" Content="認証をはじめる" HorizontalAlignment="Stretch"/>
             <WebView x:Name="Browser" Grid.Row="1"/>
         </Grid>
-        <TextBlock Grid.Column="1" Text="{Binding Status}" Margin="20"/>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Command="{Binding MoveDirectoryCommand}" Content="ディレクトリへ移動" HorizontalAlignment="Stretch"/>
+                <Button Grid.Column="1" Command="{Binding BackDirectoryCommand}" Content="戻る" HorizontalAlignment="Stretch"/>
+            </Grid>
+            <ListBox Grid.Row="1" ItemsSource="{Binding CurrentDirectoryObjects}"
+                     SelectedItem="{Binding SelectedOneDriveObject,Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" Foreground="{Binding IsDirectory,Converter={StaticResource OneDriveObject2ColorConverter}}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
     </Grid>
 </Page>

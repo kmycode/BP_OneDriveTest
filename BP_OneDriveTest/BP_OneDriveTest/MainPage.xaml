@@ -2,11 +2,18 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:BP_OneDriveTest.Shared.ViewModels"
+             xmlns:converters="clr-namespace:BP_OneDriveTest.Converters"
              x:Class="BP_OneDriveTest.MainPage">
 
     <ContentPage.BindingContext>
         <vm:OneDriveViewModel/>
     </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:OneDriveObject2ColorConverter x:Key="OneDriveObject2ColorConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -14,6 +21,30 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Button Text="認証をはじめる" Command="{Binding AuthenticateCommand}"/>
-        <Label Grid.Row="1" Text="{Binding Status}"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Command="{Binding MoveDirectoryCommand}" Text="ディレクトリへ移動"/>
+                <Button Grid.Column="1" Command="{Binding BackDirectoryCommand}" Text="戻る"/>
+            </Grid>
+            <ListView Grid.Row="1" ItemsSource="{Binding CurrentDirectoryObjects}"
+                      SelectedItem="{Binding SelectedOneDriveObject,Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding Name}" TextColor="{Binding IsDirectory,Converter={StaticResource OneDriveObject2ColorConverter}}"
+                                   VerticalOptions="Center"/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </Grid>
 </ContentPage>

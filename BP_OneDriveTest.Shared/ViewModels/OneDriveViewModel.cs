@@ -17,6 +17,7 @@ namespace BP_OneDriveTest.Shared.ViewModels
 
 		private OneDriveAuthModel authModel = new OneDriveAuthModel();
 		private OneDriveModel model = new OneDriveModel();
+		private OneDriveFileManagementModel fileManagementModel = new OneDriveFileManagementModel();
 
 		#endregion
 
@@ -36,6 +37,34 @@ namespace BP_OneDriveTest.Shared.ViewModels
 			}
 		}
 
+		public ICollection<OneDriveObject> CurrentDirectoryObjects
+		{
+			get
+			{
+				return this.fileManagementModel.CurrentDirectoryObjects;
+			}
+		}
+
+		/// <summary>
+		/// 現在選択されているOneDriveのオブジェクト
+		/// </summary>
+		public OneDriveObject SelectedOneDriveObject
+		{
+			get
+			{
+				return this._selectedOneDriveObject;
+			}
+			set
+			{
+				if (this._selectedOneDriveObject != value)
+				{
+					this._selectedOneDriveObject = value;
+					this.OnPropertyChanged();
+				}
+			}
+		}
+		private OneDriveObject _selectedOneDriveObject;
+
 		#endregion
 
 		#region メソッド
@@ -47,6 +76,7 @@ namespace BP_OneDriveTest.Shared.ViewModels
 
 			// イベントをつなげる
 			this.authModel.OneDriveAuthFinished += this.model.OnAuthenticationFinished;
+			this.model.OneDriveConnectionEstablished += this.fileManagementModel.OnOneDriveConnectionEstablished;
 
 			// 認証完了時、ブラウザを操作する
 			this.authModel.OneDriveAuthFinished += this.OneDriveAuthFinished;
@@ -74,6 +104,36 @@ namespace BP_OneDriveTest.Shared.ViewModels
 			}
 		}
 		private RelayCommand _authenticateCommand;
+
+		/// <summary>
+		/// 指定したディレクトリへ移動する
+		/// </summary>
+		public RelayCommand MoveDirectoryCommand
+		{
+			get
+			{
+				return this._moveDirectoryCommand = this._moveDirectoryCommand ?? new RelayCommand(async () =>
+				{
+					await this.fileManagementModel.MoveDirectoryAsync(this.SelectedOneDriveObject);
+				});
+			}
+		}
+		private RelayCommand _moveDirectoryCommand;
+
+		/// <summary>
+		/// 1つ前のディレクトリに戻る
+		/// </summary>
+		public RelayCommand BackDirectoryCommand
+		{
+			get
+			{
+				return this._backDirectoryCommand = this._backDirectoryCommand ?? new RelayCommand(async () =>
+				{
+					await this.fileManagementModel.BackDirectoryAsync();
+				});
+			}
+		}
+		private RelayCommand _backDirectoryCommand;
 
 		#endregion
 
