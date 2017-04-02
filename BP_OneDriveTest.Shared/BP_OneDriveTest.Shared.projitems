@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveDirectory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveFileManagementModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveFileOperator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\OneDriveRootDirectory.cs" />

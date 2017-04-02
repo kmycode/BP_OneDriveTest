@@ -30,12 +30,22 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Command="{Binding MoveDirectoryCommand}" Text="ディレクトリへ移動"/>
-                <Button Grid.Column="1" Command="{Binding BackDirectoryCommand}" Text="戻る"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button Grid.ColumnSpan="2" Command="{Binding MoveDirectoryCommand}" Text="ディレクトリへ移動"/>
+                <Button Grid.Column="2" Command="{Binding BackDirectoryCommand}" Text="戻る"/>
+                <Button Grid.Row="1" Command="{Binding UploadTestFileCommand}" Text="test.txtへの書き込み"/>
+                <Button Grid.Row="1" Grid.Column="1" Command="{Binding DownloadTestFileCommand}" Text="test.txtの読み込み"/>
+                <Button Grid.Row="1" Grid.Column="2" Command="{Binding DeleteTestFileCommand}" Text="test.txtの削除"/>
+                <Label Grid.Row="2" FontSize="16" Text="{Binding DownloadedText}" Margin="8,8,8,20" FontAttributes="Bold"/>
             </Grid>
             <ListView Grid.Row="1" ItemsSource="{Binding CurrentDirectoryObjects}"
-                      SelectedItem="{Binding SelectedOneDriveObject,Mode=TwoWay}">
+                      SelectedItem="{Binding SelectedOneDriveObject,Mode=TwoWay}" BackgroundColor="White">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

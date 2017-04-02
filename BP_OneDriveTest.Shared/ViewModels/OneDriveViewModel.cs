@@ -65,6 +65,17 @@ namespace BP_OneDriveTest.Shared.ViewModels
 		}
 		private OneDriveObject _selectedOneDriveObject;
 
+		/// <summary>
+		/// ダウンロードしたテキスト
+		/// </summary>
+		public string DownloadedText
+		{
+			get
+			{
+				return this.fileManagementModel.DownloadedText;
+			}
+		}
+		
 		#endregion
 
 		#region メソッド
@@ -73,6 +84,7 @@ namespace BP_OneDriveTest.Shared.ViewModels
 		{
 			// OnPropertyChangedをつなげる
 			this.model.PropertyChanged += this.RaisePropertyChanged;
+			this.fileManagementModel.PropertyChanged += this.RaisePropertyChanged;
 
 			// イベントをつなげる
 			this.authModel.OneDriveAuthFinished += this.model.OnAuthenticationFinished;
@@ -135,6 +147,51 @@ namespace BP_OneDriveTest.Shared.ViewModels
 		}
 		private RelayCommand _backDirectoryCommand;
 
+		/// <summary>
+		/// テストファイルをアップロードする
+		/// </summary>
+		public RelayCommand UploadTestFileCommand
+		{
+			get
+			{
+				return this._uploadTestFileCommand = this._uploadTestFileCommand ?? new RelayCommand(async () =>
+				{
+					await this.fileManagementModel.UploadTestFileAsync();
+				});
+			}
+		}
+		private RelayCommand _uploadTestFileCommand;
+
+		/// <summary>
+		/// テストファイルをダウンロードする
+		/// </summary>
+		public RelayCommand DownloadTestFileCommand
+		{
+			get
+			{
+				return this._downloadTestFileCommand = this._downloadTestFileCommand ?? new RelayCommand(async () =>
+				{
+					await this.fileManagementModel.DownloadTestFileAsync();
+				});
+			}
+		}
+		private RelayCommand _downloadTestFileCommand;
+
+		/// <summary>
+		/// テストファイルを削除する
+		/// </summary>
+		public RelayCommand DeleteTestFileCommand
+		{
+			get
+			{
+				return this._deleteTestFileCommand = this._deleteTestFileCommand ?? new RelayCommand(async () =>
+				{
+					await this.fileManagementModel.DeleteTestFileAsync();
+				});
+			}
+		}
+		private RelayCommand _deleteTestFileCommand;
+		
 		#endregion
 
 		#region メソッド
